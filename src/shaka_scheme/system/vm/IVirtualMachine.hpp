@@ -29,9 +29,10 @@ using CurrentEnvironment = std::shared_ptr<Environment>;
 using CurrentValueRib = std::shared_ptr<DataNode>;
 using CurrentStack = std::shared_ptr<CallFrame>;
 
+
 /**
  * @brief The interface for the VirtualMachine. Lays out the specification
- * for the Heap Based VM described in Kent Dybvigs Dissertation
+ * for the Heap Based VM described in Kent Dybvig's Dissertation
  *
  */
 class IVirtualMachine {
@@ -41,13 +42,12 @@ public:
 
   /**
    * @brief The method that actually processes the 12 assembly instructions
-   * Takes in an Evaluator that iteratively queries the contents of the
-   * NextExpression and modifies each register accordingly based on the spec.
+   * Iteratively evaluates whatever happens to be the current contents of
+   * the NextExpression register, until a (halt) instruction is reached
    * Changes the contents of each register in place
-   * @param s An R-value reference to an Evaluator
    */
 
-  virtual void evaluate_assembly_instruction(NextExpression x) = 0;
+  virtual void evaluate_assembly_instruction() = 0;
 
   /**
    * @brief Returns the current contents of the Accumulator register
@@ -117,16 +117,6 @@ public:
    * @param s The pointer to a CallFrame to represent the new CurrentStack
    */
   virtual void restore_stack(CurrentStack s) = 0;
-
-
-
-private:
-
-  Accumulator a;
-  NextExpression x;
-  CurrentEnvironment e;
-  CurrentValueRib r;
-  CurrentStack s;
 
 };
 
