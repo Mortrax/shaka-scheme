@@ -27,7 +27,7 @@ using Accumulator = std::shared_ptr<DataNode>;
 using NextExpression = std::shared_ptr<DataNode>;
 using CurrentEnvironment = std::shared_ptr<Environment>;
 using CurrentValueRib = std::shared_ptr<DataNode>;
-using CurrentStack = std::shared_ptr<CallFrame>;
+using ControlStack = std::shared_ptr<CallFrame>;
 
 
 /**
@@ -86,7 +86,7 @@ public:
    * Should hold a pointer to the top CallFrame on the stack
    * @return The pointer to the top CallFrame on the stack
    */
-  virtual CurrentStack get_current_stack() const = 0;
+  virtual ControlStack get_current_stack() const = 0;
 
 
   /**
@@ -116,7 +116,7 @@ public:
    * @brief Restores parameter s to be the CurrentStack
    * @param s The pointer to a CallFrame to represent the new CurrentStack
    */
-  virtual void restore_stack(CurrentStack s) = 0;
+  virtual void restore_stack(ControlStack s) = 0;
 
 };
 
