@@ -12,16 +12,6 @@ class CallFrame {
 
 public:
 
-  /**
-   * @brief destructor for CallFrame
-   */
-  ~CallFrame();
-
-  /**
-   * @brief copy constructor for CallFrame
-   * @param other the CallFrame object to construct this object from
-   */
-  CallFrame(const CallFrame& other);
 
   /**
    * @brief standard constructor for CallFrame to be used primarily by VM
@@ -93,8 +83,8 @@ public:
 private:
 
   using EnvPtr = std::shared_ptr<Environment>;
-  using Expression = std::shared_ptr<DataNode>;
-  using ValueRib = std::shared_ptr<DataNode>;
+  using Expression = std::shared_ptr<Data>;
+  using ValueRib = std::shared_ptr<Data>;
   using FramePtr = std::shared_ptr<CallFrame>;
 
   Expression ret;
