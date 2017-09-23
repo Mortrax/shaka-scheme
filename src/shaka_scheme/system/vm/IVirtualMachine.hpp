@@ -23,11 +23,11 @@ class CallFrame;
  * entire code base for the VM needing to be modified
  */
 
-using Accumulator = std::shared_ptr<DataNode>;
-using NextExpression = std::shared_ptr<DataNode>;
-using CurrentEnvironment = std::shared_ptr<Environment>;
-using CurrentValueRib = std::shared_ptr<DataNode>;
-using ControlStack = std::shared_ptr<CallFrame>;
+using Accumulator = std::shared_ptr<Data>;
+using Expression = std::shared_ptr<Data>;
+using EnvPtr = std::shared_ptr<Environment>;
+using ValueRib = std::shared_ptr<Data>;
+using FramePtr = std::shared_ptr<CallFrame>;
 
 
 /**
@@ -37,8 +37,6 @@ using ControlStack = std::shared_ptr<CallFrame>;
  */
 class IVirtualMachine {
 public:
-
-  virtual ~IVirtualMachine() {}
 
   /**
    * @brief The method that actually processes the 12 assembly instructions
@@ -63,7 +61,7 @@ public:
    * compilation prior to evaluation
    * @return The next expression to be evaluated
    */
-  virtual NextExpression query_next_expression() const = 0;
+  virtual Expression query_next_expression() const = 0;
 
   /**
    * @brief Returns the contents of the CurrentEnvironment register
@@ -71,7 +69,7 @@ public:
    * the contents of the NextExpression register
    * @return The pointer to the CurrentEnvironment frame
    */
-  virtual CurrentEnvironment get_current_environment() const = 0;
+  virtual EnvPtr get_current_environment() const = 0;
 
   /**
    * @brief Returns the contents of the CurrentValueRib register
@@ -79,14 +77,14 @@ public:
    * The rib can be used to extend the environment upon creation of a new frame
    * @return The list of arguments evaluated thus far
    */
-  virtual CurrentValueRib get_current_value_rib() const = 0;
+  virtual ValueRib get_current_value_rib() const = 0;
 
   /**
    * @brief Returns the contents of the CurrentStack register
    * Should hold a pointer to the top CallFrame on the stack
    * @return The pointer to the top CallFrame on the stack
    */
-  virtual ControlStack get_current_stack() const = 0;
+  virtual FramePtr get_current_stack() const = 0;
 
 
   /**
@@ -101,22 +99,27 @@ public:
    * value passed in; is a result of most of the Assembly instructions
    * @param x The new contents of the NextExpression register
    */
-  virtual void set_next_expression(NextExpression x) = 0;
+  virtual void set_next_expression(Expression x) = 0;
 
   /**
-   * @brief Creates a new frame from the contents of the CurrentEnvironment
-   * register, the CurrentVaueRib register, and the ret parameter as the
-   * NextExpression. Places that frame on the current stack
-   * Is a result of the (frame x ret) Assembly instruction
-   * @param ret The NextExpression to be placed in the new CallFrame object
+   * @brief Sets the contents of the CurrentEnvironment register to be
+   * the value passed in
+   * @param e The new EnvPtr to be placed in the register
    */
-  virtual void add_frame_to_stack(NextExpression ret) = 0;
+  virtual void set_current_environment(EnvPtr e) = 0;
+
+  /**
+   * @brief Sets the contents of the CurrentValueRib register to be
+   * the value passed in
+   * @param r The new ValueRib to be placed in the register
+   */
+  virtual void set_current_value_rib(ValueRib r) = 0;
 
   /**
    * @brief Restores parameter s to be the CurrentStack
    * @param s The pointer to a CallFrame to represent the new CurrentStack
    */
-  virtual void restore_stack(ControlStack s) = 0;
+  virtual void restore_stack(FramePtr s) = 0;
 
 };
 
