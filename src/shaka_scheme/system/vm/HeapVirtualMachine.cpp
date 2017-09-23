@@ -37,7 +37,4 @@ void HeapVirtualMachine::set_current_environment(EnvPtr e) {
 }
 
 
-
-
-
 } //namespace shaka
