@@ -6,6 +6,7 @@
 #define SHAKA_SCHEME_CONTROLFRAME_HPP
 
 #include "../base/Data.hpp"
+#include <vector>
 namespace shaka {
 
 class CallFrame {
@@ -79,7 +80,7 @@ private:
 
   using EnvPtr = std::shared_ptr<Environment>;
   using Expression = std::shared_ptr<Data>;
-  using ValueRib = std::shared_ptr<Data>;
+  using ValueRib = std::vector<NodePtr>;
   using FramePtr = std::shared_ptr<CallFrame>;
 
   Expression ret;
